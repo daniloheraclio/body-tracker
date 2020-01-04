@@ -11,23 +11,25 @@
     <v-app-bar
       app
       clipped-left
-      color="deep-orange darken-2"
-      dark
+      color="white deep-orange--text darken-2"
+      dense
+      :elevation="0"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Body Tracker</v-toolbar-title>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="deep-orange--text"/>
+      <v-spacer></v-spacer>
+      <v-toolbar-title>BodyTRACKER</v-toolbar-title>
     </v-app-bar>
 
-    <v-content>
+    <v-content class="white">
       <v-container
-        class="fill-height white"
+        class="white"
         fluid
       >
         <v-row
-          align="center"
-          justify="center"
+          align="start"
+          justify="space-around"
         >
-          <v-col>
+          <v-col cols="12">
             <v-fade-transition mode="out-in">
               <router-view></router-view>
             </v-fade-transition>
@@ -36,7 +38,7 @@
       </v-container>
     </v-content>
 
-    <v-footer app>
+    <v-footer app :absolute="true">
       <span>&copy; 2019</span>
     </v-footer>
   </v-app>
