@@ -4,21 +4,13 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 // import VueFirestore from 'vue-firestore';
 import Firebase from 'firebase';
-import 'firebase/firestore';
 // require('firebase/firestore')
+import 'firebase/firestore';
+import { firebaseConfig } from './firebaseConfig.js';
  
-// Vue.use(VueFirestore)
 
-// insert your firebase config infos 
-var firebaseApp = Firebase.initializeApp({
-  apiKey: "",
-  authDomain: "",
-  databaseURL: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
-})  
+// insert your firebase config infos from config file
+var firebaseApp = Firebase.initializeApp({...firebaseConfig})  
  
 export const db = firebaseApp.firestore();
 
