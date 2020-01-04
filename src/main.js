@@ -9,14 +9,15 @@ import 'firebase/firestore';
  
 // Vue.use(VueFirestore)
 
+// insert your firebase config infos 
 var firebaseApp = Firebase.initializeApp({
-  apiKey: "AIzaSyDb6yUnyTB4c3mBpaKq27exB9OUHXXx4iY",
-  authDomain: "trackfit-9a0c0.firebaseapp.com",
-  databaseURL: "https://trackfit-9a0c0.firebaseio.com",
-  projectId: "trackfit-9a0c0",
-  storageBucket: "trackfit-9a0c0.appspot.com",
-  messagingSenderId: "1083075412043",
-  appId: "1:1083075412043:web:b4273d32159a6b82500dce"
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 })  
  
 export const db = firebaseApp.firestore();
