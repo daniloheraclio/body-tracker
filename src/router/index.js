@@ -31,6 +31,11 @@ const routes = [
     component: () => import('../views/Users.vue')
   },
   {
+    path: '/addtest',
+    name: 'Add test',
+    component: () => import('../views/AddTest.vue')
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting
@@ -41,7 +46,6 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

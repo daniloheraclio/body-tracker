@@ -47,15 +47,6 @@
         </v-list-item>
       </v-list>
 
-    <v-divider></v-divider>
-      <!-- <v-data-table
-        :headers="headers"
-        :items="users"
-        :items-per-page="5"
-        class="elevation-0"
-        :mobile-breakpoint="300"
-      ></v-data-table> -->
-
       </v-sheet>
     </v-col>
   </v-row>
@@ -68,10 +59,6 @@ import moment from 'moment';
 export default {
   name: 'users',
   data: () => ({
-    // headers: [
-    //   { text: 'Full Name', value: 'name', align: 'left' },
-
-    // ],
     users: [],
     avatar: true,
     twoLine: true,

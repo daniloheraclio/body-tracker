@@ -114,10 +114,10 @@
               update
           </v-btn>
             <v-btn 
-              @click="clear" 
-              depressed
+              @click="back" 
+              text
             >
-              clear
+              back
             </v-btn>
           </v-row>
         </form>
@@ -188,12 +188,9 @@ export default {
         this.$router.push({ path: '/users' })
       }, 2000)
     },
-    clear() {
+    back() {
       this.$v.$reset()
-      this.name = ''
-      this.email = ''
-      this.defaultGender = null
-      this.birthdate = null
+      this.$router.go(-1)
     },
     turnDisable() {
       this.isDisabled = true

@@ -16,7 +16,7 @@
             <v-icon large color="grey darken-2" class="mb-2 mr-2">
               mdi-account-plus
             </v-icon>
-            Add User
+            Create Test
           </p>
         </v-sheet>
         <v-sheet
@@ -38,67 +38,34 @@
             >
               <v-icon slot="prepend" color="deep-orange">mdi-account</v-icon>
             </v-text-field>
-            <v-text-field
-              v-model="email"
-              :error-messages="emailErrors"
-              label="E-mail"
-              required
-              @input="$v.email.$touch()"
-              @blur="$v.email.$touch()"
-              class="mb-3"
-              color="blue-grey darken-1"
-              :disabled="isDisabled"
-            >
-              <v-icon slot="prepend" color="deep-orange">mdi-email</v-icon>
-            </v-text-field>
-            <v-row>
-              <v-icon slot="prepend" color="deep-orange" class="mb-4 mr-1 ml-3">mdi-gender-male-female</v-icon>
-              <v-radio-group 
-                v-model="defaultGender"
-                column 
-                v-for="gender in genders" 
-                :key="gender.value"
-                class="mt-1 ml-1"
-                required
-                :error-messages="genderErrors"
-                :disabled="isDisabled"
-              >
-                <v-radio 
-                  :label="gender.label" 
-                  :value="gender.value"
-                  color="blue-grey darken-1"
-                >
-                </v-radio>
-              </v-radio-group>
-            </v-row>
             
             <v-dialog
               ref="dialog"
               v-model="modal"
-              :return-value.sync="birthdate"
+              :return-value.sync="testdate"
               persistent
               width="290px"
               color="deep-orange"
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="birthdate"
+                  v-model="testdate"
                   readonly
                   v-on="on"
-                  placeholder="Birthday"
+                  placeholder="Test Date"
                   required
-                  @input="$v.birthdate.$touch()"
-                  @blur="$v.birthdate.$touch()"
-                  :error-messages="birthdateErrors"
+                  @input="$v.testdate.$touch()"
+                  @blur="$v.testdate.$touch()"
+                  :error-messages="testdateErrors"
                   :disabled="isDisabled"
                 >
                   <v-icon slot="prepend" color="deep-orange">mdi-calendar</v-icon>
                 </v-text-field>
               </template>
-              <v-date-picker v-model="birthdate" scrollable color="deep-orange" >
+              <v-date-picker v-model="testdate" scrollable color="deep-orange" >
                 <v-spacer></v-spacer>
                 <v-btn text color="blue-grey darken-1" @click="modal = false">Cancel</v-btn>
-                <v-btn text color="blue-grey darken-1" @click="saveDate(birthdate)">OK</v-btn>
+                <v-btn text color="blue-grey darken-1" @click="saveDate(testdate)">OK</v-btn>
               </v-date-picker>
             </v-dialog>
 
@@ -133,7 +100,7 @@ import { required, maxLength, email } from 'vuelidate/lib/validators';
 import { db } from '@/main';
 
 export default {
-  name: 'AddUser',
+  name: 'CreateTest',
   mixins: [validationMixin],
 
   data: () => ({
@@ -145,7 +112,7 @@ export default {
       {label: 'Female', value: 'female'}
     ],
     checkbox: false,
-    birthdate: null,
+    testdate: null,
     isLoading: false,
     menu: false,
     modal: false,
@@ -163,7 +130,7 @@ export default {
           name: this.name,
           email: this.email,
           gender: this.defaultGender,
-          birthdate: this.birthdate,
+          testdate: this.testdate,
         });
         this.turnDisable();
         this.snackbar = true
@@ -181,10 +148,10 @@ export default {
       this.name = ''
       this.email = ''
       this.defaultGender = null
-      this.birthdate = null
+      this.testdate = null
     },
-    saveDate(birthdate) {
-      this.$refs.dialog.save(birthdate);
+    saveDate(testdate) {
+      this.$refs.dialog.save(testdate);
       this.modal = false;
     },
   },
@@ -209,10 +176,10 @@ export default {
       !this.$v.defaultGender.required && errors.push('Item is required')
       return errors
     },
-    birthdateErrors () {
+    testdateErrors () {
       const errors = []
-      if (!this.$v.birthdate.$dirty) return errors
-      !this.$v.birthdate.required && errors.push('Birthday is required.')
+      if (!this.$v.testdate.$dirty) return errors
+      !this.$v.testdate.required && errors.push('Testdate is required.')
       return errors
     },
   },
@@ -220,7 +187,7 @@ export default {
     name: { required, maxLength: maxLength(30) },
     email: { required, email },
     defaultGender: { required },
-    birthdate: { required },
+    testdate: { required },
   },
 }
 </script>

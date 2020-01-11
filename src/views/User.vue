@@ -117,7 +117,7 @@ export default {
   position: relative;
   width: 100%;
   top: 5em;
-  z-index: 500;
+  z-index: 2;
   border: inset 10px solid #F44336;
   background: #fff;
 }

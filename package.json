@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
+  "homepage": "https://daniloheraclio.github.io/bodytrackweb",
   "dependencies": {
     "core-js": "^3.4.3",
     "firebase": "^7.6.1",
