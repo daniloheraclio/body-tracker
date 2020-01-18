@@ -11,31 +11,19 @@
     <v-app-bar
       app
       clipped-left
-      color="white deep-orange--text darken-2"
+      color="purple darken-2 purple--text text--lighten-5"
       dense
       :elevation="0"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="deep-orange--text"/>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class=""/>
       <v-spacer></v-spacer>
       <v-toolbar-title>BodyTRACKER</v-toolbar-title>
     </v-app-bar>
 
-    <v-content class="white">
-      <v-container
-        class="white"
-        fluid
-      >
-        <v-row
-          align="start"
-          justify="space-around"
-        >
-          <v-col cols="12">
-            <v-fade-transition mode="out-in">
-              <router-view></router-view>
-            </v-fade-transition>
-          </v-col>
-        </v-row>
-      </v-container>
+    <v-content class="grey lighten-4">
+      <v-fade-transition mode="out-in">
+        <router-view></router-view>
+      </v-fade-transition>
     </v-content>
 
     <v-footer app :absolute="true">
