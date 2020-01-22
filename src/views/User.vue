@@ -1,6 +1,7 @@
 <template>
   <v-container>
-
+    <h1 class="title grey--text text-uppercase">Clients</h1>
+    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
     <v-snackbar
       v-model="snackbar"
       :timeout="2000"
@@ -68,9 +69,10 @@ import { db } from '@/main';
 
 export default {
   name: 'user',
+  props: ['id'],
   data() {
     return {
-      id: this.$route.params.id,
+      // id: this.$route.params.id,
       user: {},
       snackbar: false,
       snackbarText: 'User has been deleted',

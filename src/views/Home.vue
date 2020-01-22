@@ -18,7 +18,7 @@
               <v-card-title>
                 Banner
               </v-card-title>
-              <v-card-text>
+              <v-card-text @click="openUser">
                 Aqui coloca um banner com uma imagem pra deixar bonito =)
               </v-card-text>
             </v-card>
@@ -64,13 +64,13 @@
           <v-card-text>
             <v-list>
               <v-list-item
-                v-for="user in users"
+                v-for="user in usersPreview"
                 :key="user.name"
                 :to="{path: '/user/'+ user.id}"
               >
-                <v-list-item-avatar>
+                <!-- <v-list-item-avatar>
                   <v-img :src="user.avatar"></v-img>
-                </v-list-item-avatar>
+                </v-list-item-avatar> -->
 
                 <v-list-item-content>
                   <v-list-item-title v-text="user.name"></v-list-item-title>
@@ -132,26 +132,29 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'home',
+  props: ['id'],
   components: {
   },
   data: () => ({
-    users: [
-      {avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', name: 'Danilo Heraclio', dob: '1981-03-24', gender: 'male'},
-      {avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', name: 'Alana Moraes', dob: '1987-05-30', gender: 'female'},
-      {avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', name: 'Luana Moraes', dob: '2015-04-30', gender: 'female'},
-      {avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', name: 'Sophia Heraclio', dob: '2019-11-12', gender: 'female'},
-    ],
     tests: [
       {title: 'Aerobic', url: 'https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Running/620/What+is+Maximalist+Running+620.jpg'},
       {title: 'Body composition', url: 'https://gymjp.com/wp-content/uploads/2014/09/trackskinfold.jpg'},
     ]
   }),
+  created() {
+    this.$store.dispatch('getUsers')
+  },
+  computed: {
+    ...mapGetters(['usersPreview']),
+  },
   methods: {
-    openUser(user) {
-      console.log(user);
+    async openUser() {
+      const res = await this.getUsers;
+      console.log(res);
       
     },
   }
