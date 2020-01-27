@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { db } from '@/main';
+import firebase from 'firebase';
 
 export default {
   name: 'user',
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     getUser() {
-      return db.collection("users")
+      return firebase.firestore().collection("users")
                 .doc(this.id)
                 .onSnapshot(res => {
                   this.user = res.data()
@@ -96,7 +96,7 @@ export default {
     async deleteUser() {
       if(this.id) {
         this.isDeleted = true;
-        await db.collection('users').doc(this.id).delete();
+        await firebase.firestore().collection('users').doc(this.id).delete();
         
         this.snackbar = true;
 

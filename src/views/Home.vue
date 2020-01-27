@@ -18,7 +18,7 @@
               <v-card-title>
                 Banner
               </v-card-title>
-              <v-card-text @click="openUser">
+              <v-card-text>
                 Aqui coloca um banner com uma imagem pra deixar bonito =)
               </v-card-text>
             </v-card>
@@ -94,10 +94,10 @@
     <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
     <v-row>
       <v-col
-        v-for="n in 3"
+        v-for="n in 4"
         :key="n"
         cols="6"
-        md="4"
+        md="3"
       >
         <v-card
           class="pa-2"
@@ -141,7 +141,7 @@ export default {
   },
   data: () => ({
     tests: [
-      {title: 'Aerobic', url: 'https://content.active.com/Assets/Active.com+Content+Site+Digital+Assets/Running/620/What+is+Maximalist+Running+620.jpg'},
+      {title: 'Aerobic', url: 'https://cdn.vox-cdn.com/thumbor/KO_gWQtcDEpfVrmVFuJnb9EYHo0=/0x40:1000x790/1200x800/filters:focal(0x40:1000x790)/cdn.vox-cdn.com/uploads/chorus_image/image/46889290/shutterstock_266758136.0.0.jpg'},
       {title: 'Body composition', url: 'https://gymjp.com/wp-content/uploads/2014/09/trackskinfold.jpg'},
     ]
   }),
@@ -151,13 +151,5 @@ export default {
   computed: {
     ...mapGetters(['usersPreview']),
   },
-  methods: {
-    async openUser() {
-      const res = await this.getUsers;
-      console.log(res);
-      
-    },
-  }
-
 }
 </script>

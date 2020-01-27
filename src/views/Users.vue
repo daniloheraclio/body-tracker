@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { db } from '@/main';
+import firebase from 'firebase';
 import moment from 'moment';
 
 export default {
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     async getUsers() {
-      await db.collection('users').onSnapshot(res => {
+      await firebase.firestore().collection('users').onSnapshot(res => {
         const changes = res.docChanges();
 
         changes.forEach(change => {

@@ -130,7 +130,7 @@
 <script>
 import { validationMixin } from 'vuelidate';
 import { required, maxLength, email } from 'vuelidate/lib/validators';
-import { db } from '@/main';
+import firebase from 'firebase';
 
 export default {
   name: 'AddUser',
@@ -159,7 +159,7 @@ export default {
       this.$v.$touch()
       if(!this.$v.$invalid) {
         this.isLoading = true;
-        await db.collection('users').add({
+        await firebase.firestore().collection('users').add({
           name: this.name,
           email: this.email,
           gender: this.defaultGender,

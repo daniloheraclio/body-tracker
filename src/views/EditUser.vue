@@ -129,7 +129,7 @@
 <script>
 import { validationMixin } from 'vuelidate';
 import { required, maxLength, email } from 'vuelidate/lib/validators';
-import { db } from '@/main';
+import firebase from 'firebase';
 
 export default {
   name: 'EditUser',
@@ -160,7 +160,7 @@ export default {
   methods: {
     async getUser() {
       let user;
-      const res = await db.collection("users")
+      const res = await firebase.firestore().collection("users")
               .doc(this.id)
               .get()
       user = {...res.data()}
@@ -174,7 +174,7 @@ export default {
       this.$v.$touch()
       if(!this.$v.$invalid) {
         this.isLoading = true;
-        await db.collection('users').doc(this.id).set({
+        await firebase.firestore().collection('users').doc(this.id).set({
           name: this.name,
           email: this.email,
           gender: this.defaultGender,

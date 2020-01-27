@@ -30,7 +30,7 @@
         color="white"
         max-width="720px"
       >
-        <Form7site  @sum-skinfold="danilo(data)"/>
+        <Form7site @sum-skinfold="danilo(data)"/>
       </v-sheet>
     </v-col>
 
@@ -102,7 +102,7 @@
 import Form7site from '../components/Form7site';
 import { validationMixin } from 'vuelidate';
 import { required, maxLength, email } from 'vuelidate/lib/validators';
-import { db } from '@/main';
+import firebase from 'firebase';
 import { pollockMale7skinfold } from '../fitTests/skinfold';
 import { log } from 'util';
 
@@ -138,7 +138,7 @@ export default {
       if(!this.$v.$invalid) {
         this.isLoading = true;
         console.log(this.sumSkinfold)
-        // await db.collection('users').add({
+        // await firebase.firestore().collection('users').add({
         //   name: this.name,
         //   email: this.email,
         //   gender: this.defaultGender,
