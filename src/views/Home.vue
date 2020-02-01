@@ -68,10 +68,6 @@
                 :key="user.name"
                 :to="{path: '/user/'+ user.id}"
               >
-                <!-- <v-list-item-avatar>
-                  <v-img :src="user.avatar"></v-img>
-                </v-list-item-avatar> -->
-
                 <v-list-item-content>
                   <v-list-item-title v-text="user.name"></v-list-item-title>
                 </v-list-item-content>
@@ -124,11 +120,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-card flat class="pa-3">
-      <v-layout row wrap>
-
-      </v-layout>
-    </v-card>
   </v-container>
 </template>
 <script>
@@ -142,7 +133,7 @@ export default {
   data: () => ({
     tests: [
       {title: 'Aerobic', url: 'https://cdn.vox-cdn.com/thumbor/KO_gWQtcDEpfVrmVFuJnb9EYHo0=/0x40:1000x790/1200x800/filters:focal(0x40:1000x790)/cdn.vox-cdn.com/uploads/chorus_image/image/46889290/shutterstock_266758136.0.0.jpg'},
-      {title: 'Body composition', url: 'https://gymjp.com/wp-content/uploads/2014/09/trackskinfold.jpg'},
+      {title: 'Body composition', url: 'https://caliberstrong.com/wp-content/uploads/2014/07/measuring-your-body-fat.jpg'},
     ]
   }),
   created() {

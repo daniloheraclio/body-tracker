@@ -87,6 +87,7 @@
 import { fireauth } from '@/main'; 
 import { validationMixin } from 'vuelidate';
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
+import { mapActions } from 'vuex';
 
 export default {
    name: 'signup',
@@ -105,8 +106,9 @@ export default {
       }
    },
    methods: {
+      ...mapActions(['signupUser']),
       // FAZER AVISO DE ERRO TOASTER
-      onSignup() {
+      async onSignup() {
          this.$v.$touch()
          if(!this.$v.$invalid) {
             try {
@@ -115,11 +117,15 @@ export default {
                   email: this.email,
                   password: this.password
                };
-               this.$store.dispatch('signupUser', payload);
-               this.$router.go({ path: this.$router.path });
+               // send payload to firebase AUTH
+               await this.signupUser(payload)
+               setTimeout(() => {
+                  this.$router.go({ path: this.$router.path })
+               }, 500);
             } catch(err) {
                console.log('ERROR: ', err);
-               
+            } finally {
+               console.log('finally');
             }
          }
       }

@@ -1,15 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase';
+import router from 'router';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {
-      id: '',
-      email: '',
-    },
+    user: {},
     users: []
   },
 
@@ -29,7 +27,7 @@ export default new Vuex.Store({
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password);
 
-      // let currentUser = firebase.auth().currentUser;
+     
           
       const currentUser = {
         id: result.user.uid,
@@ -52,10 +50,13 @@ export default new Vuex.Store({
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
         .then(user => {
+          
           const newUser = {
-            id: user.uid,
-            email: user.email,
+            uid: user.user.uid,
+            email: user.user.email,
+            ...user.user
           };
+          console.log('newUser', newUser);
           commit('SET_USER', newUser);
         })
         .catch(err => console.log(err));
@@ -81,6 +82,4 @@ export default new Vuex.Store({
   getters: {
     usersPreview: state => state.users.slice(0, 4),
   },
-  modules: {
-  }
 })

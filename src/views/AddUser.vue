@@ -1,130 +1,166 @@
 <template>
-    <v-row no-gutters>
-      <v-col>
-        <v-sheet
-          class="mx-auto py-0 px-1"
-          max-width="720px"
-          > 
-          <v-snackbar
-            v-model="snackbar"
-            :timeout="2000"
-            bottom
-          >
-            {{ snackbarText }}
-          </v-snackbar>
-          <p class="display-1 grey--text text--darken-2">
-            <v-icon large color="grey darken-2" class="mb-2 mr-2">
-              mdi-account-plus
-            </v-icon>
-            Add User
-          </p>
-        </v-sheet>
-        <v-sheet
-          class="mx-auto pa-0"
-          color="white"
-          max-width="720px"
+  <v-container>
+      <h1 class="title grey--text text-uppercase">Add Client</h1>
+    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+    <v-row>
+      <v-col cols="12" md="8" offset-md="2" >
+        
+        <v-snackbar
+          v-model="snackbar"
+          :timeout="2000"
+          bottom
         >
-          <form>
-            <v-text-field
-              v-model="name"
-              :error-messages="nameErrors"
-              :counter="30"
-              label="Name"
-              required
-              @input="$v.name.$touch()"
-              @blur="$v.name.$touch()"
-              color="blue-grey darken-1"
-              :disabled="isDisabled"
-            >
-              <v-icon slot="prepend" color="deep-orange">mdi-account</v-icon>
-            </v-text-field>
-            <v-text-field
-              v-model="email"
-              :error-messages="emailErrors"
-              label="E-mail"
-              required
-              @input="$v.email.$touch()"
-              @blur="$v.email.$touch()"
-              class="mb-3"
-              color="blue-grey darken-1"
-              :disabled="isDisabled"
-            >
-              <v-icon slot="prepend" color="deep-orange">mdi-email</v-icon>
-            </v-text-field>
-            <v-row>
-              <v-icon slot="prepend" color="deep-orange" class="mb-4 mr-1 ml-3">mdi-gender-male-female</v-icon>
-              <v-radio-group 
-                v-model="defaultGender"
-                column 
-                v-for="gender in genders" 
-                :key="gender.value"
-                class="mt-1 ml-1"
-                required
-                :error-messages="genderErrors"
-                :disabled="isDisabled"
-              >
-                <v-radio 
-                  :label="gender.label" 
-                  :value="gender.value"
-                  color="blue-grey darken-1"
-                >
-                </v-radio>
-              </v-radio-group>
-            </v-row>
-            
-            <v-dialog
-              ref="dialog"
-              v-model="modal"
-              :return-value.sync="birthdate"
-              persistent
-              width="290px"
-              color="deep-orange"
-            >
-              <template v-slot:activator="{ on }">
+          {{ snackbarText }}
+        </v-snackbar>
+        <v-row>
+          <v-col cols="12">
+            <form>
+              <v-card outlined >
+                <v-card-text>
                 <v-text-field
-                  v-model="birthdate"
-                  readonly
-                  v-on="on"
-                  placeholder="Birthday"
+                  v-model="name"
+                  :error-messages="nameErrors"
+                  :counter="30"
+                  label="Name"
                   required
-                  @input="$v.birthdate.$touch()"
-                  @blur="$v.birthdate.$touch()"
-                  :error-messages="birthdateErrors"
+                  @input="$v.name.$touch()"
+                  @blur="$v.name.$touch()"
+                  color="purple darken-2 purple--text text--lighten-5"
                   :disabled="isDisabled"
                 >
-                  <v-icon slot="prepend" color="deep-orange">mdi-calendar</v-icon>
+                  <v-icon 
+                    slot="prepend" 
+                    color="grey"
+                  >
+                    mdi-account
+                  </v-icon>
                 </v-text-field>
-              </template>
-              <v-date-picker v-model="birthdate" scrollable color="deep-orange" >
-                <v-spacer></v-spacer>
-                <v-btn text color="blue-grey darken-1" @click="modal = false">Cancel</v-btn>
-                <v-btn text color="blue-grey darken-1" @click="saveDate(birthdate)">OK</v-btn>
-              </v-date-picker>
-            </v-dialog>
-
-            <v-row class="mt-8 mx-auto">
-              <v-btn 
-                @click="submit" 
-                depressed 
-                color="blue-grey white--text" 
-                class="mr-4"
-                :loading="isLoading"
-                :disabled="isDisabled"
-              >
-                submit
-              </v-btn>
-              <v-btn
-              text
-                @click="clear" 
-                depressed
-              >
-                clear
-              </v-btn>
-            </v-row>
-          </form>
-        </v-sheet>
+                <v-text-field
+                  v-model="email"
+                  :error-messages="emailErrors"
+                  label="E-mail"
+                  required
+                  @input="$v.email.$touch()"
+                  @blur="$v.email.$touch()"
+                  class="mb-3"
+                  color="purple darken-2 purple--text text--lighten-5"
+                  :disabled="isDisabled"
+                >
+                  <v-icon 
+                    slot="prepend" 
+                    color="grey"
+                  >
+                    mdi-email
+                  </v-icon>
+                </v-text-field>
+                <v-row>
+                  <v-icon 
+                    slot="prepend" 
+                    color="grey" 
+                    class="mb-4 mr-1 ml-3"
+                  >
+                   mdi-gender-male-female
+                  </v-icon>
+                  <v-radio-group 
+                    v-model="defaultGender"
+                    column 
+                    v-for="gender in genders" 
+                    :key="gender.value"
+                    class="mt-1 ml-1"
+                    required
+                    :error-messages="genderErrors"
+                    :disabled="isDisabled"
+                  >
+                    <v-radio 
+                      :label="gender.label" 
+                      :value="gender.value"
+                      color="purple darken-2 purple--text text--lighten-5"
+                    >
+                    </v-radio>
+                  </v-radio-group>
+                </v-row>
+                
+                <v-dialog
+                  ref="dialog"
+                  v-model="modal"
+                  :return-value.sync="birthdate"
+                  persistent
+                  width="290px"
+                  color="purple darken-2 purple--text text--lighten-5"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="birthdate"
+                      readonly
+                      v-on="on"
+                      placeholder="Birthday"
+                      required
+                      @input="$v.birthdate.$touch()"
+                      @blur="$v.birthdate.$touch()"
+                      :error-messages="birthdateErrors"
+                      :disabled="isDisabled"
+                    >
+                      <v-icon 
+                        slot="prepend" 
+                        color="grey"
+                      >
+                        mdi-calendar
+                      </v-icon>
+                    </v-text-field>
+                  </template>
+                  <v-date-picker 
+                    v-model="birthdate" 
+                    scrollable 
+                    color="purple darken-2 purple--text text--lighten-5"
+                    :max="new Date().toISOString().substr(0, 10)"
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn 
+                      text 
+                      color="purple darken-2 purple--text text--lighten-5" 
+                      @click="modal = false"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn 
+                      text 
+                      color="purple darken-2 purple--text text--lighten-5" 
+                      @click="saveDate(birthdate)"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-dialog>
+              </v-card-text>
+              <v-card-actions>
+                <v-row class="mt-8 mx-auto">
+                  <v-btn 
+                    @click="submit" 
+                    depressed 
+                    color="purple darken-2 purple--text text--lighten-5" 
+                    class="mr-4"
+                    :loading="isLoading"
+                    :disabled="isDisabled"
+                    block
+                  >
+                    submit
+                  </v-btn>
+                  <v-btn
+                  text
+                    @click="clear" 
+                    depressed
+                  >
+                    clear
+                  </v-btn>
+                </v-row>
+              </v-card-actions>
+              </v-card>
+            </form>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -186,6 +222,11 @@ export default {
     saveDate(birthdate) {
       this.$refs.dialog.save(birthdate);
       this.modal = false;
+    },
+  },
+  watch: {
+    menu (val) {
+      val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
     },
   },
   computed: {

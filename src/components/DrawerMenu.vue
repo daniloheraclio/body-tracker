@@ -59,7 +59,7 @@ export default {
   name: 'drawermenu',
   data: () => ({
     menuItems: [
-      {path: '',        title: 'Dashboard', icon: 'view-dashboard'},
+      {path: '',        title: 'Home', icon: 'view-dashboard'},
       {path: 'users',   title: 'Users',     icon: 'account-group'},
       {path: 'adduser', title: 'Add User',  icon: 'account-plus'},
       {path: 'about',   title: 'About',     icon: 'information'},

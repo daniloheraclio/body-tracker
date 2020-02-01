@@ -16,13 +16,13 @@
               :avatar="avatar"
               :two-line="twoLine"
             >
-              <v-list-item-avatar v-if="user.gender==='male' ? true : false">
+              <v-list-item-avatar v-if="user.gender==='male'">
                 <v-btn class="mx-2" fab dark color="blue lighten-3" small>
                   <v-icon dark>mdi-face</v-icon>
                 </v-btn>
               </v-list-item-avatar>
 
-              <v-list-item-avatar v-if="user.gender==='female' ? true : false">
+              <v-list-item-avatar v-if="user.gender==='female'">
                 <v-btn class="mx-2" fab dark color="pink lighten-3" small>
                   <v-icon dark>mdi-face-woman</v-icon>
                 </v-btn>

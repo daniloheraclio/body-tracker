@@ -10,10 +10,10 @@
       {{ snackbarText }}
     </v-snackbar>
 
-    <v-row justify="center" v-if="!isDeleted">
-      <v-col cols="12" class="danilo">
+    <v-row v-if="!isDeleted">
+      <v-col cols="12" md="8" offset-md="2">
         <v-row justify="center">
-          <v-avatar size="120" class="position">
+          <v-avatar size="120" >
             <v-img
               src="@/assets/profile-female-min.png"
               lazy-src="https://picsum.photos/id/11/10/1"
@@ -25,19 +25,22 @@
           </v-avatar>
         </v-row>
       </v-col>
-      <v-col cols="12" class="px-0 mx-0">
+      <v-col cols="12" md="8" offset-md="2">
         <v-card
-          class="mx-auto px-0"
           max-width="500"
-          flat
-          color="red"
+          outlined
+          color="white"
         >
-          <v-card-subtitle class="pb-0 white--text">{{ user.name }}</v-card-subtitle>
+          <v-card-title class="pb-0 purple--text">
+            {{ user.name }}
+          </v-card-title>
 
-          <v-card-text class="white--text">
+          <v-card-text class="purple--text text-uppercase">
             <div>{{ user.gender }}</div>
 
             <div>{{ user.birthdate }}</div>
+            
+            <div>{{ age }}</div>
 
             <div>{{ user.email }}</div>
           </v-card-text>
@@ -66,6 +69,7 @@
 
 <script>
 import firebase from 'firebase';
+import moment from 'moment';
 
 export default {
   name: 'user',
@@ -112,6 +116,13 @@ export default {
       // :to="{ path: '/edituser/' + id }"
     }
   },
+  computed: {
+    age() {
+      // TODO: calcular idade
+      const today = new Date().toISOString().substr(0, 10)
+      return today - this.user.birthdate;
+    }
+  }
 }
 </script>
 <style scoped>
