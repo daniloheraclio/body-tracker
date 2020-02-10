@@ -29,19 +29,20 @@
       
 
     </div>
-    <v-content class="grey lighten-5">
+    <v-content class="grey lighten-5 no-padding-mobile">
       <v-fade-transition mode="out-in">
         <router-view></router-view>
       </v-fade-transition>
     </v-content>
     <div class="d-md-none">
       <v-bottom-navigation
-      :value="activeBtn"
+      v-if="isLogged"
       grow
       :height="50"
       fixed
       color="purple darken-2 purple--text text--lighten-5"
       hidden-md-and-up
+      
       >
         <v-btn
           v-for="menuItem in menuItems"
@@ -61,7 +62,7 @@
 
 <script>
 import DrawerMenu from './components/DrawerMenu';
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import firebase from "firebase";
 
 export default {
@@ -75,12 +76,11 @@ export default {
   data: () => ({
     drawer: null,
     currentUser: '',
-    activeBtn: 1,
     menuItems: [
       {path: '',        title: 'Home',      icon: 'home-variant-outline'},
-      {path: 'users',   title: 'Users',     icon: 'account-group'},
-      {path: 'adduser', title: 'Add User',  icon: 'account-plus'},
-      {path: 'about',   title: 'About',     icon: 'information'},
+      {path: 'clients', title: 'Clients', icon: 'account-group'},
+      {path: 'addclient', title: 'Add Client',  icon: 'account-plus'},
+      {path: 'user',   title: 'Account',     icon: 'account-circle'},
     ]
   }),
   created () {
@@ -88,17 +88,27 @@ export default {
     this.$vuetify.theme.dark = false
   },
   mounted() {
-    this.$store.dispatch('setUser', this.currentUser);
+    this.setUser(this.currentUser);
   },
   methods: {
+    ...mapActions(['setUser']),
     goTo(route) {
       this.$router.push({name: route}); 
-    }
+    },
   },
   computed: {
     isLogged() {
       return this.currentUser ? true : false;
     }
   },
+  
 };
 </script>
+<style>
+@media screen and (max-width: 959px) {
+  .no-padding-mobile {
+    padding-top: 0 !important;
+  }
+}
+
+</style>

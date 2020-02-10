@@ -17,17 +17,17 @@
             <form>
               <v-card outlined >
                 <v-card-text>
-                <v-text-field
-                  v-model="name"
-                  :error-messages="nameErrors"
-                  :counter="30"
-                  label="Name"
-                  required
-                  @input="$v.name.$touch()"
-                  @blur="$v.name.$touch()"
-                  color="purple darken-2 purple--text text--lighten-5"
-                  :disabled="isDisabled"
-                >
+                  <v-text-field
+                    v-model="name"
+                    :error-messages="nameErrors"
+                    :counter="30"
+                    label="Name"
+                    required
+                    @input="$v.name.$touch()"
+                    @blur="$v.name.$touch()"
+                    color="purple darken-2 purple--text text--lighten-5"
+                    :disabled="isDisabled"
+                  >
                   <v-icon 
                     slot="prepend" 
                     color="grey"
@@ -167,7 +167,7 @@ import { required, maxLength, email } from 'vuelidate/lib/validators';
 import firebase from 'firebase';
 
 export default {
-  name: 'EditUser',
+  name: 'EditClient',
   mixins: [validationMixin],
 
   data: () => ({
@@ -185,31 +185,31 @@ export default {
     menu: false,
     modal: false,
     snackbar: false,
-    snackbarText: 'User successfully updated',
+    snackbarText: 'Client successfully updated',
     isDisabled: false,
   }),
   created() {
     this.id = this.$route.params.uid;
-    this.getUser();
+    this.getClient();
   },
   methods: {
-    async getUser() {
-      let user;
-      const res = await firebase.firestore().collection("users")
+    async getClient() {
+      let client;
+      const res = await firebase.firestore().collection("clients")
               .doc(this.id)
               .get()
-      user = {...res.data()}
-      this.name = user.name;
-      this.email = user.email;
-      this.defaultGender = user.gender;
-      this.birthdate = user.birthdate;
+      client = {...res.data()}
+      this.name = client.name;
+      this.email = client.email;
+      this.defaultGender = client.gender;
+      this.birthdate = client.birthdate;
     },
 
     async update () {
       this.$v.$touch()
       if(!this.$v.$invalid) {
         this.isLoading = true;
-        await firebase.firestore().collection('users').doc(this.id).set({
+        await firebase.firestore().collection('clients').doc(this.id).set({
           name: this.name,
           email: this.email,
           gender: this.defaultGender,
@@ -220,8 +220,8 @@ export default {
         this.isLoading = false;
       }
       setTimeout(() => {
-        this.$router.push({ path: '/users' })
-      }, 2000)
+        this.$router.push({ path: '/clients' })
+      }, 1500)
     },
     back() {
       this.$v.$reset()

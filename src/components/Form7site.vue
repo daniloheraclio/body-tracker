@@ -2,7 +2,7 @@
   <v-container class="grey lighten-5">
     <v-row justify="center">
       <v-col cols="12">
-        <v-form>
+        <form @submit.prevent="foldData">
          <v-text-field
             v-model="triceps"
             :error-messages="tricepsErrors"
@@ -94,7 +94,7 @@
          >
          </v-text-field>
 
-        </v-form>
+        </form>
       </v-col>
 
     </v-row>
@@ -119,7 +119,21 @@ export default {
       sumSkinfold: 0,
       isDisabled: false,
    }),
+   methods: {
+      foldData() {
+         console.log(this.triceps +
+                  this.subscapular +
+                  this.chest +
+                  this.axilla +
+                  this.suprailiac +
+                  this.abdominal +
+                  this.thigh);
+      }
+   },
    computed: {
+      foldData() {
+         this.$emit('sum-skinfold', )
+      },
       tricepsErrors() {
         const errors = []
         if (!this.$v.triceps.$dirty) return errors

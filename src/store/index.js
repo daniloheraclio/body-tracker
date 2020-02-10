@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import firebase from 'firebase';
-import router from 'router';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     user: {},
-    users: []
+    clients: []
   },
 
   // MUTATIONS
@@ -16,33 +15,37 @@ export default new Vuex.Store({
     SET_USER: (state, user) => {
       state.user = user;
     },
-    SET_USERS: (state, users) => {
-      state.users = users;
+    SET_CLIENTS: (state, clients) => {
+      state.clients = clients;
     },
   },
-  actions: {
-    login: async ({ commit }, payload) => {
-      console.log('action user payload: ', payload);
-      const result = await firebase
-        .auth()
-        .signInWithEmailAndPassword(payload.email, payload.password);
 
-     
-          
-      const currentUser = {
-        id: result.user.uid,
-        email: result.user.email,
-      }
+  // ACTIONS 
+  actions: {
+    login: ({ commit }, payload) => {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(payload.email, payload.password)
+        .then(user => {
+          const newUser = {
+            uid: user.user.uid,
+            email: user.user.email,
+            ...user.user
+          };
+          commit('SET_USER', newUser);
+        })
+        .catch(err => console.log(err));
     },
     setUser: ({ commit }, payload) => {
       commit('SET_USER', payload);
     },
-    logout: ({ commit }) => {
+    logoutUser: ({ commit }) => {
       firebase
         .auth()
         .signOut()
         .then(() => {
           console.log('logout...');
+          commit('SET_USER', null);
         })
     },
     signupUser: ({ commit }, payload) => {
@@ -50,36 +53,37 @@ export default new Vuex.Store({
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
         .then(user => {
-          
           const newUser = {
             uid: user.user.uid,
             email: user.user.email,
             ...user.user
           };
-          console.log('newUser', newUser);
           commit('SET_USER', newUser);
         })
         .catch(err => console.log(err));
     },
-    getUsers: async context => {
-      let usersData = [];
-      await firebase.firestore().collection('users').onSnapshot(res => {
+    getClients: async context => {
+      let clientsData = [];
+      firebase.firestore().collection('clients').onSnapshot(res => {
         const changes = res.docChanges();
 
         changes.forEach(change => {
           if(change.type === 'added') {
             
-            usersData.push({
+            clientsData.push({
               ...change.doc.data(),
               id: change.doc.id
             })
           }
         });
-        context.commit('SET_USERS', usersData);
+        context.commit('SET_CLIENTS', clientsData);
       });
     }
   },
+
+  // GETTERS
   getters: {
-    usersPreview: state => state.users.slice(0, 4),
+    clientsPreview: state => state.clients.slice(0, 4),
+    user: state => state.user,
   },
 })

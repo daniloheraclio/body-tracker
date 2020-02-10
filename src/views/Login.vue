@@ -73,6 +73,7 @@
 <script>
 import { validationMixin } from 'vuelidate';
 import { required, minLength, email } from 'vuelidate/lib/validators';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
    name: 'login',
@@ -90,20 +91,20 @@ export default {
       }
    },
    methods: {
-      async onSubmit() {
+      onSubmit() {
          try {
             const payload = {
                email: this.email,
                password: this.password,
             }
-            await this.$store.dispatch('login', payload);
-            this.$router.go({ path: this.$router.path });
+            this.$store.dispatch('login', payload);
          } catch (err) {
             console.log('ERRO: ',err);
          }
       }
    },
    computed: {
+      ...mapGetters(['user']),
       emailErrors () {
          const errors = []
          if (!this.$v.email.$dirty) return errors
@@ -118,6 +119,13 @@ export default {
          !this.$v.password.required && errors.push('Password is required')
          return errors
       },
+   },
+   watch: {
+      user(val) {
+         if(val !== null && val !== undefined) {
+            this.$router.go({ path: this.$router.path })
+         }
+      }
    },
    validations: {
     email: { 

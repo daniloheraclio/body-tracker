@@ -7,30 +7,30 @@
         <v-card 
           outlined
         >
-          <v-list class="">
+          <v-list>
 
             <v-list-item
-              v-for="user in users"
-              :key="user.id"
-              :to="{path: '/user/'+ user.id}"
+              v-for="client in clients"
+              :key="client.id"
+              :to="{path: '/client/'+ client.id}"
               :avatar="avatar"
               :two-line="twoLine"
             >
-              <v-list-item-avatar v-if="user.gender==='male'">
+              <v-list-item-avatar v-if="client.gender==='male'">
                 <v-btn class="mx-2" fab dark color="blue lighten-3" small>
                   <v-icon dark>mdi-face</v-icon>
                 </v-btn>
               </v-list-item-avatar>
 
-              <v-list-item-avatar v-if="user.gender==='female'">
+              <v-list-item-avatar v-if="client.gender==='female'">
                 <v-btn class="mx-2" fab dark color="pink lighten-3" small>
                   <v-icon dark>mdi-face-woman</v-icon>
                 </v-btn>
               </v-list-item-avatar>
 
               <v-list-item-content>
-                <v-list-item-title v-text="user.name"></v-list-item-title>
-                <v-list-item-subtitle v-text="user.email"></v-list-item-subtitle>
+                <v-list-item-title v-text="client.name"></v-list-item-title>
+                <v-list-item-subtitle v-text="client.email"></v-list-item-subtitle>
               </v-list-item-content>
 
             </v-list-item>
@@ -46,9 +46,9 @@ import firebase from 'firebase';
 import moment from 'moment';
 
 export default {
-  name: 'users',
+  name: 'clients',
   data: () => ({
-    users: [],
+    clients: [],
     avatar: true,
     twoLine: true,
 
@@ -58,12 +58,12 @@ export default {
   },
   methods: {
     async getUsers() {
-      await firebase.firestore().collection('users').onSnapshot(res => {
+      await firebase.firestore().collection('clients').onSnapshot(res => {
         const changes = res.docChanges();
 
         changes.forEach(change => {
           if(change.type === 'added') {
-            this.users.push({
+            this.clients.push({
               ...change.doc.data(),
               id: change.doc.id
             })

@@ -3,12 +3,12 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
-import AddUser from '../views/AddUser.vue';
-import User from '../views/User.vue';
-import EditUser from '../views/EditUser.vue';
-import Users from '../views/Users.vue';
+import AddClient from '../views/AddClient.vue';
+import Client from '../views/Client.vue';
+import EditClient from '../views/EditClient.vue';
+import Clients from '../views/Clients.vue';
 import AddTest from '../views/AddTest.vue';
-import About from '../views/About.vue';
+import User from '../views/User.vue';
 
 import firebase from 'firebase';
 
@@ -40,50 +40,54 @@ const routes = [
     }
   },
   {
-    path: '/adduser',
-    name: 'Add user',
-    component: AddUser,
+    path: '/addclient',
+    name: 'Add Client',
+    component: AddClient,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/user/:id',
-    name: 'User',
-    component: User,
+    path: '/client/:id',
+    name: 'Client',
+    component: Client,
     props: true,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/edituser/:uid',
-    name: 'Edit User',
-    component: EditUser,
+    path: '/editclient/:uid',
+    name: 'Edit Client',
+    component: EditClient,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/users',
-    name: 'Users',
-    component: Users,
+    path: '/clients',
+    name: 'Clients',
+    component: Clients,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/addtest',
+    path: '/addtest/:id',
     name: 'Add test',
     component: AddTest,
+    props: true,
     meta: {
       requiresAuth: true
     }
   },
   {
-    path: '/about',
-    name: 'about',
-    component: About,
+    path: '/user',
+    name: 'user',
+    component: User,
+    meta: {
+      requiresAuth: true
+    }
   },
 ]
 

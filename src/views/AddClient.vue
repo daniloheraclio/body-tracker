@@ -4,14 +4,7 @@
     <!-- Stack the columns on mobile by making one full-width and the other half-width -->
     <v-row>
       <v-col cols="12" md="8" offset-md="2" >
-        
-        <v-snackbar
-          v-model="snackbar"
-          :timeout="2000"
-          bottom
-        >
-          {{ snackbarText }}
-        </v-snackbar>
+        <v-snackbar v-model="snackbar" :timeout="2000" bottom>{{ snackbarText }}</v-snackbar>
         <v-row>
           <v-col cols="12">
             <form>
@@ -169,7 +162,7 @@ import { required, maxLength, email } from 'vuelidate/lib/validators';
 import firebase from 'firebase';
 
 export default {
-  name: 'AddUser',
+  name: 'AddClient',
   mixins: [validationMixin],
 
   data: () => ({
@@ -186,7 +179,7 @@ export default {
     menu: false,
     modal: false,
     snackbar: false,
-    snackbarText: 'User successfully added',
+    snackbarText: 'Client successfully added',
     isDisabled: false,
   }),
 
@@ -195,7 +188,7 @@ export default {
       this.$v.$touch()
       if(!this.$v.$invalid) {
         this.isLoading = true;
-        await firebase.firestore().collection('users').add({
+        await firebase.firestore().collection('clients').add({
           name: this.name,
           email: this.email,
           gender: this.defaultGender,
@@ -205,7 +198,7 @@ export default {
         this.snackbar = true
         this.isLoading = false;
       setTimeout(() => {
-        this.$router.push({ path: '/users' })
+        this.$router.push({ path: '/clients' })
       }, 2000)
       }
     },

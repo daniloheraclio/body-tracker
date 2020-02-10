@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="isLogged">
   <div>
     <v-layout
       column
@@ -53,22 +53,23 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: 'drawermenu',
   data: () => ({
     menuItems: [
       {path: '',        title: 'Home', icon: 'view-dashboard'},
-      {path: 'users',   title: 'Users',     icon: 'account-group'},
-      {path: 'adduser', title: 'Add User',  icon: 'account-plus'},
-      {path: 'about',   title: 'About',     icon: 'information'},
+      {path: 'clients',   title: 'Clients',     icon: 'account-group'},
+      {path: 'addclient', title: 'Add Client',  icon: 'account-plus'},
+      {path: 'user',   title: 'Account',     icon: 'account-circle'},
     ]
   }),
   methods: {
+    ...mapActions(['logoutUser']),
     async logout() {
       try {
-        await this.$store.dispatch('logout');
+        await this.logoutUser();
         this.$router.go({ path: this.$router.path });
       } catch (err) {
         console.log(err);
@@ -76,7 +77,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user']),
+    ...mapGetters(['user']),
+    isLogged() {
+      return this.user !== undefined && this.user !== null;
+    },
   },
 
 }

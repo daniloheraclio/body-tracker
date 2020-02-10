@@ -87,7 +87,7 @@
 import { fireauth } from '@/main'; 
 import { validationMixin } from 'vuelidate';
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
    name: 'signup',
@@ -119,9 +119,9 @@ export default {
                };
                // send payload to firebase AUTH
                await this.signupUser(payload)
-               setTimeout(() => {
-                  this.$router.go({ path: this.$router.path })
-               }, 500);
+               // setTimeout(() => {
+               //    this.$router.go({ path: this.$router.path })
+               // }, 500);
             } catch(err) {
                console.log('ERROR: ', err);
             } finally {
@@ -131,6 +131,7 @@ export default {
       }
    },
    computed: {
+      ...mapGetters(['user']),
       emailErrors () {
          const errors = []
          if (!this.$v.email.$dirty) return errors
@@ -151,6 +152,13 @@ export default {
          !this.$v.confirmPassword.sameAsPassword && errors.push('Password must be identical')
          return errors
       },
+   },
+   watch: {
+      user(val) {
+         if(val !== null && val !== undefined) {
+            this.$router.go({ path: this.$router.path })
+         }
+      }
    },
    validations: {
     email: { 

@@ -37,13 +37,19 @@
               min-height="150"
               outlined
             >
-              <v-img
-                :src="test.url"
-                height="215"
-                class="white--text align-center text-center text-uppercase"
-              >
-                <v-list-item-subtitle>{{ test.title }}</v-list-item-subtitle>
-              </v-img>
+              <v-card-title>
+                <v-icon
+                  x-large
+                  color="purple"
+                  class="mx-auto mt-2"
+                >
+                  {{ test.src }}
+                </v-icon>
+              </v-card-title>
+              
+              <v-card-subtitle class="d-flex justify-center">
+               <p class="subtitle-2 text-uppercase grey--text text--darken-1 mt-4" >{{ test.title }}</p>
+              </v-card-subtitle>
             </v-card>
          </v-col>
         </v-row>
@@ -64,19 +70,19 @@
           <v-card-text>
             <v-list>
               <v-list-item
-                v-for="user in usersPreview"
-                :key="user.name"
-                :to="{path: '/user/'+ user.id}"
+                v-for="client in clientsPreview"
+                :key="client.name"
+                :to="{path: '/client/'+ client.id}"
               >
                 <v-list-item-content>
-                  <v-list-item-title v-text="user.name"></v-list-item-title>
+                  <v-list-item-title v-text="client.name"></v-list-item-title>
                 </v-list-item-content>
 
               </v-list-item>
             </v-list>
           </v-card-text>
           <v-card-actions>
-            <v-btn block depressed :to="{ path: '/users' }">
+            <v-btn block depressed :to="{ path: '/clients' }">
               <v-icon color="grey darken-2" class="mb-1 mr-3">
                 mdi-account-group
               </v-icon>
@@ -123,7 +129,7 @@
   </v-container>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'home',
@@ -132,15 +138,18 @@ export default {
   },
   data: () => ({
     tests: [
-      {title: 'Aerobic', url: 'https://cdn.vox-cdn.com/thumbor/KO_gWQtcDEpfVrmVFuJnb9EYHo0=/0x40:1000x790/1200x800/filters:focal(0x40:1000x790)/cdn.vox-cdn.com/uploads/chorus_image/image/46889290/shutterstock_266758136.0.0.jpg'},
-      {title: 'Body composition', url: 'https://caliberstrong.com/wp-content/uploads/2014/07/measuring-your-body-fat.jpg'},
+      {title: 'Aerobic', src: 'mdi-run'},
+      {title: 'Body composition', src: 'mdi-scale-bathroom'},
     ]
   }),
   created() {
-    this.$store.dispatch('getUsers')
+    this.getClients();
   },
   computed: {
-    ...mapGetters(['usersPreview']),
+    ...mapGetters(['clientsPreview']),
   },
+  methods: {
+    ...mapActions(['getClients']),
+  }
 }
 </script>
