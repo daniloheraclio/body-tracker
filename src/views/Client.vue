@@ -31,13 +31,13 @@
           </v-card-title>
 
           <v-card-text class="purple--text text-uppercase">
-            <div>{{ client.gender }}</div>
+            <div>Gender: {{ client.gender }}</div>
 
-            <div>{{ client.birthdate }}</div>
+            <div>Birthdate: {{ client.birthdate }}</div>
             
-            <div>{{ age }}</div>
+            <div>Age: {{ age }} years old</div>
 
-            <div>{{ client.email }}</div>
+            <div>Email: {{ client.email }}</div>
           </v-card-text>
 
           <v-card-actions v-if="!isDeleted">
@@ -75,7 +75,7 @@
 
 <script>
 import firebase from 'firebase';
-import moment from 'moment';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'client',
@@ -99,16 +99,20 @@ export default {
   },
   methods: {
     getClient() {
-      return firebase.firestore().collection("clients")
-                .doc(this.id)
-                .onSnapshot(res => {
-                  this.client = res.data()
-              })
+      return firebase.firestore()
+      .collection('users').doc(this.user.uid)
+      .collection("clients")
+        .doc(this.id)
+        .onSnapshot(res => {
+          this.client = res.data()
+      })
     },
     async deleteClient() {
       if(this.id) {
         this.isDeleted = true;
-        await firebase.firestore().collection('clients').doc(this.id).delete();
+        await firebase.firestore()
+        .collection('users').doc(this.user.uid)
+        .collection('clients').doc(this.id).delete();
         
         this.snackbar = true;
 
@@ -127,10 +131,11 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['user']),
     age() {
-      // TODO: calcular idade
-      const today = new Date().toISOString().substr(0, 10)
-      return today - this.client.birthdate;
+      const diff = Date.now() - new Date(this.client.birthdate).getTime();
+      const age = new Date(diff);
+      return Math.abs(age.getUTCFullYear() - 1970);
     }
   }
 }

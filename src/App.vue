@@ -86,12 +86,9 @@ export default {
   created () {
     this.currentUser = firebase.auth().currentUser;
     this.$vuetify.theme.dark = false
-  },
-  mounted() {
-    this.setUser(this.currentUser);
+    this.$store.commit('SET_USER', this.currentUser);
   },
   methods: {
-    ...mapActions(['setUser']),
     goTo(route) {
       this.$router.push({name: route}); 
     },

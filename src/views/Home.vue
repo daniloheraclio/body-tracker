@@ -65,12 +65,12 @@
           outlined
         >
           <v-card-title>
-            Clients
+            Active Clients
           </v-card-title>
           <v-card-text>
             <v-list>
               <v-list-item
-                v-for="client in clientsPreview"
+                v-for="client in activeClients"
                 :key="client.name"
                 :to="{path: '/client/'+ client.id}"
               >
@@ -143,10 +143,14 @@ export default {
     ]
   }),
   created() {
-    this.getClients();
+    this.getClients(this.user.uid);
+    console.log('sssss', this.user.uid);
+    
+    console.log('active clients', this.activeClients);
+    
   },
   computed: {
-    ...mapGetters(['clientsPreview']),
+    ...mapGetters(['user', 'activeClients']),
   },
   methods: {
     ...mapActions(['getClients']),

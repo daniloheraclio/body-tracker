@@ -44,6 +44,7 @@
 <script>
 import firebase from 'firebase';
 import moment from 'moment';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'clients',
@@ -56,9 +57,14 @@ export default {
   created() {
     this.getUsers();
   },
+  computed: {
+    ...mapGetters(['user']),
+  },
   methods: {
     async getUsers() {
-      await firebase.firestore().collection('clients').onSnapshot(res => {
+      await firebase.firestore()
+      .collection('users').doc(this.user.uid)
+      .collection('clients').onSnapshot(res => {
         const changes = res.docChanges();
 
         changes.forEach(change => {

@@ -160,6 +160,7 @@
 import { validationMixin } from 'vuelidate';
 import { required, maxLength, email } from 'vuelidate/lib/validators';
 import firebase from 'firebase';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'AddClient',
@@ -185,14 +186,22 @@ export default {
 
   methods: {
     async submit () {
+      console.log('UID: ', this.user.uid);
+      
       this.$v.$touch()
       if(!this.$v.$invalid) {
         this.isLoading = true;
-        await firebase.firestore().collection('clients').add({
+
+        await firebase.firestore()
+        .collection('users').doc(this.user.uid)
+        .collection('clients')
+        .add({
           name: this.name,
           email: this.email,
           gender: this.defaultGender,
           birthdate: this.birthdate,
+          userId: this.user.uid,
+          active: true,
         });
         this.turnDisable();
         this.snackbar = true
@@ -223,6 +232,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['user']),
     nameErrors () {
       const errors = []
       if (!this.$v.name.$dirty) return errors

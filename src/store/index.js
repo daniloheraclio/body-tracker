@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import firebase from 'firebase';
+import firebase, { firestore } from 'firebase';
 
 Vue.use(Vuex)
 
@@ -52,19 +52,28 @@ export default new Vuex.Store({
       firebase
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(user => {
+        .then(cred => {
           const newUser = {
-            uid: user.user.uid,
-            email: user.user.email,
-            ...user.user
+            uid: cred.user.uid,
+            email: cred.user.email,
+            ...cred.user
           };
+          return firebase.firestore().collection('users').doc(cred.user.uid).set({
+            age: 30,
+            cref: '002805-G/PE',
+            profileUrl: 'https://api.adorable.io/avatars/285/abott@adorable.png'
+          })
+          
+        })
+        .then(() => {
           commit('SET_USER', newUser);
         })
         .catch(err => console.log(err));
     },
-    getClients: async context => {
+    getClients: (context, uid) => {
       let clientsData = [];
-      firebase.firestore().collection('clients').onSnapshot(res => {
+      console.log('uidddd',uid)
+      firebase.firestore().collection('users').doc(uid).collection('clients').onSnapshot(res => {
         const changes = res.docChanges();
 
         changes.forEach(change => {
@@ -78,12 +87,15 @@ export default new Vuex.Store({
         });
         context.commit('SET_CLIENTS', clientsData);
       });
-    }
+    },
   },
 
   // GETTERS
   getters: {
     clientsPreview: state => state.clients.slice(0, 4),
     user: state => state.user,
+    activeClients: state => {
+      return state.clients.filter(el => el.active === true);
+    }
   },
 })

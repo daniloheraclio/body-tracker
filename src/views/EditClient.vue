@@ -80,6 +80,11 @@
                   </v-radio-group>
                 </v-row>
                 
+                <v-switch
+                  v-model="active"
+                  label="active"
+                ></v-switch>
+
                 <v-dialog
                   ref="dialog"
                   v-model="modal"
@@ -165,6 +170,7 @@
 import { validationMixin } from 'vuelidate';
 import { required, maxLength, email } from 'vuelidate/lib/validators';
 import firebase from 'firebase';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'EditClient',
@@ -179,6 +185,7 @@ export default {
       {label: 'Male',   value: 'male'},
       {label: 'Female', value: 'female'}
     ],
+    active: null,
     checkbox: false,
     birthdate: null,
     isLoading: false,
@@ -195,33 +202,41 @@ export default {
   methods: {
     async getClient() {
       let client;
-      const res = await firebase.firestore().collection("clients")
+      const res = await firebase.firestore()
+      .collection('users').doc(this.user.uid)
+      .collection("clients")
               .doc(this.id)
               .get()
+              console.log(res.data());
+              
       client = {...res.data()}
       this.name = client.name;
       this.email = client.email;
       this.defaultGender = client.gender;
       this.birthdate = client.birthdate;
+      this.active = client.active;
     },
 
     async update () {
       this.$v.$touch()
       if(!this.$v.$invalid) {
         this.isLoading = true;
-        await firebase.firestore().collection('clients').doc(this.id).set({
+        await firebase.firestore()
+        .collection('users').doc(this.user.uid)
+        .collection('clients').doc(this.id).set({
           name: this.name,
           email: this.email,
           gender: this.defaultGender,
           birthdate: this.birthdate,
+          active: this.active,
         });
         this.turnDisable();
         this.snackbar = true;
         this.isLoading = false;
       }
       setTimeout(() => {
-        this.$router.push({ path: '/clients' })
-      }, 1500)
+        this.$router.back()
+      }, 1200)
     },
     back() {
       this.$v.$reset()
@@ -236,6 +251,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['user']),
     nameErrors() {
       const errors = []
       if (!this.$v.name.$dirty) return errors
